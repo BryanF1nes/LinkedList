@@ -16,7 +16,7 @@ class LinkedList {
 
   append(value) {
     const node = new Node(value);
-    if(!this.head) {
+    if (!this.head) {
       this.head = node;
       this.tail = node;
     } else {
@@ -27,10 +27,10 @@ class LinkedList {
   }
 
   prepend(value) {
-    const node = new Node(value)
+    const node = new Node(value);
     node.next = this.head;
     this.head = node;
-    if(!this.tail) {
+    if (!this.tail) {
       this.tail = node;
     }
     this.size++;
@@ -52,14 +52,14 @@ class LinkedList {
     let current = this.head;
     let counter = 0;
     while (current !== this.tail.next) {
-      if(counter === index) {
+      if (counter === index) {
         return console.log(`Node Value: ${current.value}`);
       } else {
         current = current.next;
         counter++;
       }
     }
-    return console.log('This is not a valid index')
+    return console.log("This is not a valid index");
   }
 
   pop() {
@@ -85,19 +85,19 @@ class LinkedList {
 
     // Now, 'current' points to the second-to-last node
     const removedValue = this.tail.value;
-    
+
     // Set 'tail' to the second-to-last node, effectively removing the last node
     this.tail = current;
     this.tail.next = null;
     this.size--;
-    
+
     return removedValue;
   }
 
   contains(value) {
     let current = this.head;
     while (current !== this.tail.next) {
-      if(current.value === value) {
+      if (current.value === value) {
         return true;
       }
       current = current.next;
@@ -108,23 +108,60 @@ class LinkedList {
   find(value) {
     let current = this.head;
     let counter = 0;
-    while(current !== this.tail.next) {
-      if(current.value === value) {
+    while (current !== this.tail.next) {
+      if (current.value === value) {
         return console.log(`Index: ${counter}`);
       } else {
-        counter++
+        counter++;
         current = current.next;
       }
     }
-    return console.log(`Index: Not found within the linked list.`)
+    return console.log(`Index: Not found within the linked list.`);
   }
 
   toString() {
     let current = this.head;
-    const string = ``;
-    while(current !== this.tail.next) {
+    let result = "";
+    while (current !== null) {
+      result += `(${current.value}) -> `;
       current = current.next;
     }
+    result += "null";
+    return result;
+  }
+
+  insertAt(value, index) {
+    if (index < 0 || index > this.size) {
+      throw new Error("Index out of bounds!");
+    }
+
+    const node = new Node(value);
+
+    if (index === 0) {
+      node.next = current;
+      this.head = node;
+      if (!this.tail) {
+        this.tail = node;
+      }
+    } else if (index === this.size) {
+      this.tail.next = node;
+      this.tail = node;
+    } else {
+      let current = this.head;
+      let previous = null;
+      let counter = 0;
+
+      while (counter < index) {
+        previous = current;
+        current = current.next;
+        counter++;
+      }
+
+      previous.next = node;
+      node.next = current;
+    }
+
+    this.size++;
   }
 }
 
@@ -132,11 +169,10 @@ const linkedList = new LinkedList();
 linkedList.append(5);
 linkedList.append(12);
 linkedList.prepend(3);
-// linkedList.pop(); // removes 12
-// console.log(linkedList.contains(3)); // returns false
-// linkedList.atIndex(0); // value 3
-// linkedList.find(5); // index of 1
-
-// console.log(linkedList)
-
+linkedList.prepend(11);
+linkedList.pop(); // removes 12
+console.log(linkedList.contains(3)); // returns false
+linkedList.atIndex(0); // value 3
+linkedList.find(5); // index of 1
+linkedList.insertAt(8, 2);
 console.log(linkedList.toString());
