@@ -68,8 +68,6 @@ class LinkedList {
     }
 
     if (this.head === this.tail) {
-      // If there's only one element in the list, both head and tail
-      // should be set to null, making the list empty
       const removedValue = this.head.value;
       this.head = null;
       this.tail = null;
@@ -77,16 +75,13 @@ class LinkedList {
       return removedValue;
     }
 
-    // Iterate through the list to find the second-to-last node
     let current = this.head;
     while (current.next !== this.tail) {
       current = current.next;
     }
 
-    // Now, 'current' points to the second-to-last node
     const removedValue = this.tail.value;
 
-    // Set 'tail' to the second-to-last node, effectively removing the last node
     this.tail = current;
     this.tail.next = null;
     this.size--;
